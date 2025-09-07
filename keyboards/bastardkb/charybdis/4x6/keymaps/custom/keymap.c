@@ -18,6 +18,12 @@
 
 //qmk compile -c -kb bastardkb/charybdis/4x6 -km custom
 
+const uint16_t PROGMEM test_combo1[] = {KC_DOWN, KC_RIGHT, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(test_combo1, LSFT(KC_DEL)) // keycodes with modifiers are possible too!
+};
+
 // Tap Dance declarations
 enum {
     TD_ESC_CAPS,
