@@ -1,6 +1,6 @@
-# Charybdis (4x6) `via` keymap
+# Charybdis Mini (3x6) `via` keymap
 
-The Charydbis (4x6) `via` keymap is inspired from the original [Dactyl Manuform](../../../../../handwired/dactyl_manuform) default keymap, with some features and changes specific to the Charybdis.
+The Charydbis Mini (3x6) `via` keymap is inspired from the original [Dactyl Manuform](../../../../../handwired/dactyl_manuform) default keymap, with some features and changes specific to the Charybdis.
 
 This layout supports RGB matrix. However, due to space constraints on the MCU, only a limited number of effect can be enabled at once. Look at the `config.h` file and enable your favorite effect.
 
@@ -55,7 +55,3 @@ The trigger sensibility can also be tuned. The lower the value, the more sensibl
 ```c
 #define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD 8
 ```
-
-## Layout
-
-![Keymap layout (generated with keyboard-layout-editor.com)](https://i.imgur.com/qI7phR7.png)
