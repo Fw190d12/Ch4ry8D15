@@ -16,10 +16,9 @@
  */
 #include QMK_KEYBOARD_H
 
-//qmk compile -c -kb bastardkb/charybdis/4x6 -km custom
+// qmk compile -c -kb bastardkb/charybdis/4x6 -km custom
 
-
-
+// Combos
 const uint16_t PROGMEM test_combo1[] = {KC_DOWN, KC_RIGHT, COMBO_END};
 
 combo_t key_combos[] = {
@@ -30,23 +29,31 @@ combo_t key_combos[] = {
 enum {
     TD_ESC_TILDA,
     TD_SLSH_BSLS,
+    TD_CTRL_MO3
 };
+typedef enum {
+    TD_NONE,
+    TD_UNKNOWN,
+    TD_SINGLE_TAP,
+    TD_SINGLE_HOLD
+} td_state_t;
+typedef struct {
+    bool is_press_action;
+    td_state_t state;
+} td_tap_t;
+
+td_state_t cur_dance(tap_dance_state_t *state);
+
+// For the x tap dance. Put it here so it can be used in any keymap
+void x_finished(tap_dance_state_t *state, void *user_data);
+void x_reset(tap_dance_state_t *state, void *user_data);
 
 // Tap Dance definitions
 tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
     [TD_ESC_TILDA] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),
     [TD_SLSH_BSLS] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_BSLS),
+    [TD_CTRL_MO3] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset)
 };
-
-/*
-// Add tap dance item to your keymap in place of a keycode
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    // ...
-    TD(TD_ESC_CAPS)
-    // ...
-};
-*/
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 #    include "timer.h"
@@ -94,9 +101,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
         KC_TAB,     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_LBRC,
   // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        KC_LSFT,    KC_A,       KC_S,       KC_D,       KC_F,       KC_G,       KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_RBRC,
+        KC_CAPS,    KC_A,       KC_S,       KC_D,       KC_F,       KC_G,       KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_RBRC,
   // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        LT(3,KC_LCTL),    KC_Z, KC_X,       KC_C,       KC_V,       KC_B,       KC_N,       KC_M,       KC_COMM,    KC_DOT,     TD(TD_SLSH_BSLS),    LT(3,KC_QUOT),
+        TD(TD_CTRL_MO3), KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       KC_N,       KC_M,       KC_COMM,    KC_DOT,     TD(TD_SLSH_BSLS),LT(3,KC_QUOT),
   // ╰─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
                                         KC_SPC,     KC_LSFT,    KC_LGUI,        KC_ENT,     KC_BSPC,
                                                     KC_LALT,    MO(1),          MO(2)
@@ -137,11 +144,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭───────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
        EE_CLR,      QK_BOOT,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    QK_BOOT,    EE_CLR,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-       XXXXXXX,     XXXXXXX,    XXXXXXX,    XXXXXXX,    DPI_MOD,    S_D_MOD,        S_D_MOD,    DPI_MOD,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+       XXXXXXX,     XXXXXXX,    KC_P7,      KC_P8,      KC_P9,      S_D_MOD,        S_D_MOD,    DPI_MOD,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-       XXXXXXX,     KC_LGUI,    KC_LALT,    KC_LCTL,    KC_LSFT,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    LGUI(KC_L),    XXXXXXX,    XXXXXXX,
+       XXXXXXX,     KC_LGUI,    KC_P4,      KC_P5,      KC_P6,      XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    LGUI(KC_L), XXXXXXX,    XXXXXXX,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-       KC_TRNS,     KC_TRNS,    DRGSCRL,    SNIPING,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    SNIPING,    DRGSCRL,    XXXXXXX,    XXXXXXX,
+       KC_TRNS,     KC_TRNS,   KC_P1,      KC_P2,      KC_P3,       XXXXXXX,        XXXXXXX,    XXXXXXX,    SNIPING,    DRGSCRL,    XXXXXXX,    XXXXXXX,
   // ╰───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
                                             KC_TRNS,    KC_TRNS,    KC_TRNS,        XXXXXXX,    XXXXXXX,
                                                         KC_TRNS,    KC_TRNS,        XXXXXXX
@@ -149,6 +156,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 // clang-format on
+
+
 
 #ifdef POINTING_DEVICE_ENABLE
 #    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
@@ -189,3 +198,43 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 // Forward-declare this helper function since it is defined in rgb_matrix.c.
 void rgb_matrix_update_pwm_buffers(void);
 #endif
+
+
+td_state_t cur_dance(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->interrupted || !state->pressed){
+            return TD_SINGLE_TAP;
+        } else {
+            return TD_SINGLE_HOLD;
+        }
+    } else {
+    return TD_UNKNOWN;
+    }
+}
+
+// Create an instance of 'td_tap_t' for the 'x' tap dance.
+static td_tap_t xtap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void x_finished(tap_dance_state_t *state, void *user_data) {
+    xtap_state.state = cur_dance(state);
+    switch (xtap_state.state) {
+        case TD_SINGLE_TAP: layer_move(3); break;
+        case TD_SINGLE_HOLD: register_code(KC_LCTL); break;
+
+        default: break;
+    }
+}
+
+void x_reset(tap_dance_state_t *state, void *user_data) {
+    switch (xtap_state.state) {
+        case TD_SINGLE_TAP: layer_move(0); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_LCTL); break;
+
+        default: break;
+    }
+    xtap_state.state = TD_NONE;
+}
+
