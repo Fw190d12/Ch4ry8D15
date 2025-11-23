@@ -16,6 +16,8 @@
  */
 #pragma once
 
+//for unicode characters
+
 #ifdef VIA_ENABLE
 /* VIA configuration. */
 #    define DYNAMIC_KEYMAP_LAYER_COUNT 4
