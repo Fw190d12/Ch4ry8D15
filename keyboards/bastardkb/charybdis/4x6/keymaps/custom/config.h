@@ -16,7 +16,7 @@
  */
 #pragma once
 
-//for unicode characters
+#define TAPPING_TERM_PER_KEY
 
 #ifdef VIA_ENABLE
 /* VIA configuration. */

@@ -16,6 +16,7 @@
  */
 #include QMK_KEYBOARD_H
 
+#define TAPPING_TERM 200
 // qmk compile -c -kb bastardkb/charybdis/4x6 -km custom
 
 // Combos
@@ -103,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
         KC_CAPS,    KC_A,       KC_S,       KC_D,       KC_F,       KC_G,       KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_RBRC,
   // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        TD(TD_CTRL_MO3), KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       KC_N,       KC_M,       KC_COMM,    KC_DOT,     TD(TD_SLSH_BSLS),LT(3,KC_QUOT),
+        KC_LCTL,    LT(3,KC_Z), KC_X,       KC_C,       KC_V,       KC_B,       KC_N,       KC_M,       KC_COMM,    KC_DOT,     TD(TD_SLSH_BSLS),LT(3,KC_QUOT),
   // ╰─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
                                         KC_SPC,     KC_LSFT,    KC_LGUI,        KC_ENT,     KC_BSPC,
                                                     KC_LALT,    MO(1),          MO(2)
@@ -142,7 +143,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_POINTER] = LAYOUT(
   // ╭───────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
-       EE_CLR,      QK_BOOT,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    QK_BOOT,    EE_CLR,
+       EE_CLR,      QK_BOOT,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        DT_UP,      DT_DOWN,    DT_PRNT,    XXXXXXX,    QK_BOOT,    EE_CLR,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
        XXXXXXX,     XXXXXXX,    KC_P7,      KC_P8,      KC_P9,      S_D_MOD,        S_D_MOD,    DPI_MOD,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
@@ -237,4 +238,16 @@ void x_reset(tap_dance_state_t *state, void *user_data) {
     }
     xtap_state.state = TD_NONE;
 }
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD(TD_ESC_TILDA):
+            return TAPPING_TERM + 500;
+        case TD(TD_CTRL_MO3):
+            return TAPPING_TERM;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
 
