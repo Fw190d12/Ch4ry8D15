@@ -16,32 +16,38 @@
  */
 #include QMK_KEYBOARD_H
 
-#define TAPPING_TERM 200
-// qmk compile -c -kb bastardkb/charybdis/4x6 -km custom
+/*********************************************************
+ * qmk compile -c -kb bastardkb/charybdis/4x6 -km custom *
+ *********************************************************/
 
-// Combos
-const uint16_t PROGMEM test_combo1[] = {KC_DOWN, KC_RIGHT, COMBO_END};
+/***********
+ * DEFINES *
+ ***********/
 
-combo_t key_combos[] = {
-    COMBO(test_combo1, LSFT(KC_DEL)) // keycodes with modifiers are possible too!
-};
-
-// Tap Dance declarations
+/**************************
+ * TAP DANCE DECLARATIONS *
+ **************************/
 enum {
     TD_ESC_TILDA,
     TD_SLSH_BSLS,
     TD_CTRL_MO3
 };
+
 typedef enum {
     TD_NONE,
     TD_UNKNOWN,
     TD_SINGLE_TAP,
     TD_SINGLE_HOLD
 } td_state_t;
+
 typedef struct {
     bool is_press_action;
     td_state_t state;
 } td_tap_t;
+
+/*********************************
+ * CUSTOM TAP DANCE DECLARATIONS *
+ *********************************/
 
 td_state_t cur_dance(tap_dance_state_t *state);
 
@@ -49,7 +55,37 @@ td_state_t cur_dance(tap_dance_state_t *state);
 void x_finished(tap_dance_state_t *state, void *user_data);
 void x_reset(tap_dance_state_t *state, void *user_data);
 
-// Tap Dance definitions
+/*******************************************************************
+ * TAPPING TERM CONFIGURATION. TIMING FOR DOUBLE TAP VS SINGLE TAP *
+ *******************************************************************/
+#define TAPPING_TERM 200
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD(TD_ESC_TILDA):
+            return TAPPING_TERM + 500;
+        case TD(TD_CTRL_MO3):
+            return TAPPING_TERM;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
+
+/*****************************************************************************************
+ * COMBOS DECLARE AND DEFINE. COMBO=MULTIPLE KEYS PRESSED AT THE SAME TIME. LIKE A CHORD *
+ *****************************************************************************************/
+
+const uint16_t PROGMEM test_combo1[] = {KC_DOWN, KC_RIGHT, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(test_combo1, LSFT(KC_DEL)) // keycodes with modifiers are possible too!
+};
+
+/*************************
+ * TAP TANCE DEFINITIONS *
+ *************************/
+
 tap_dance_action_t tap_dance_actions[] = {
     [TD_ESC_TILDA] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),
     [TD_SLSH_BSLS] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_BSLS),
@@ -158,8 +194,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-
-
 #ifdef POINTING_DEVICE_ENABLE
 #    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
@@ -200,7 +234,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 void rgb_matrix_update_pwm_buffers(void);
 #endif
 
-
 td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed){
@@ -239,15 +272,6 @@ void x_reset(tap_dance_state_t *state, void *user_data) {
     xtap_state.state = TD_NONE;
 }
 
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case TD(TD_ESC_TILDA):
-            return TAPPING_TERM + 500;
-        case TD(TD_CTRL_MO3):
-            return TAPPING_TERM;
-        default:
-            return TAPPING_TERM;
-    }
-}
+
 
 
