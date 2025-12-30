@@ -16,6 +16,8 @@
  */
 #include QMK_KEYBOARD_H
 
+#include "tap_dance.h"
+
 /*********************************************************
  * qmk compile -c -kb bastardkb/charybdis/4x6 -km custom *
  *********************************************************/

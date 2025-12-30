@@ -3,3 +3,7 @@ TAP_DANCE_ENABLE = yes
 COMBO_ENABLE = yes
 DYNAMIC_TAPPING_TERM_ENABLE = yes
 
+SRC+=tap_dance.c
+VPATH += src
+INCLUDE_PATHS += src
+INC += src
