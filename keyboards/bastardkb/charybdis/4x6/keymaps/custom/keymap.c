@@ -26,37 +26,6 @@
  * DEFINES *
  ***********/
 
-/**************************
- * TAP DANCE DECLARATIONS *
- **************************/
-enum {
-    TD_ESC_TILDA,
-    TD_SLSH_BSLS,
-    TD_CTRL_MO3
-};
-
-typedef enum {
-    TD_NONE,
-    TD_UNKNOWN,
-    TD_SINGLE_TAP,
-    TD_SINGLE_HOLD
-} td_state_t;
-
-typedef struct {
-    bool is_press_action;
-    td_state_t state;
-} td_tap_t;
-
-/*********************************
- * CUSTOM TAP DANCE DECLARATIONS *
- *********************************/
-
-td_state_t cur_dance(tap_dance_state_t *state);
-
-// For the x tap dance. Put it here so it can be used in any keymap
-void x_finished(tap_dance_state_t *state, void *user_data);
-void x_reset(tap_dance_state_t *state, void *user_data);
-
 /*******************************************************************
  * TAPPING TERM CONFIGURATION. TIMING FOR DOUBLE TAP VS SINGLE TAP *
  *******************************************************************/
@@ -72,7 +41,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
-
 
 /*****************************************************************************************
  * COMBOS DECLARE AND DEFINE. COMBO=MULTIPLE KEYS PRESSED AT THE SAME TIME. LIKE A CHORD *
@@ -142,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
         KC_CAPS,    KC_A,       KC_S,       KC_D,       KC_F,       KC_G,       KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_RBRC,
   // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        KC_LCTL,    LT(3,KC_Z), KC_X,       KC_C,       KC_V,       KC_B,       KC_N,       KC_M,       KC_COMM,    KC_DOT,     TD(TD_SLSH_BSLS),LT(3,KC_QUOT),
+        KC_LCTL,    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       KC_N,       KC_M,       KC_COMM,    KC_DOT,     TD(TD_SLSH_BSLS),LT(3,KC_QUOT),
   // ╰─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
                                         KC_SPC,     KC_LSFT,    KC_LGUI,        KC_ENT,     KC_BSPC,
                                                     KC_LALT,    MO(1),          MO(2)
@@ -157,7 +125,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
         KC_TRNS,    XXXXXXX,    KC_LEFT,    KC_DOWN,    KC_RGHT,    XXXXXXX,        KC_LEFT,    KC_UP,      KC_DOWN,    KC_RGHT,    XXXXXXX,    KC_MUTE,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_VOLD,
+        MO(3),      XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_VOLD,
   // ╰───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
                                         XXXXXXX,    KC_TRNS,    XXXXXXX,            KC_TRNS,    KC_DEL,
                                                     XXXXXXX,    KC_TRNS,            XXXXXXX
@@ -236,43 +204,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 void rgb_matrix_update_pwm_buffers(void);
 #endif
 
-td_state_t cur_dance(tap_dance_state_t *state) {
-    if (state->count == 1) {
-        if (state->interrupted || !state->pressed){
-            return TD_SINGLE_TAP;
-        } else {
-            return TD_SINGLE_HOLD;
-        }
-    } else {
-    return TD_UNKNOWN;
-    }
-}
+
 
 // Create an instance of 'td_tap_t' for the 'x' tap dance.
-static td_tap_t xtap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
-};
 
-void x_finished(tap_dance_state_t *state, void *user_data) {
-    xtap_state.state = cur_dance(state);
-    switch (xtap_state.state) {
-        case TD_SINGLE_TAP: layer_move(3); break;
-        case TD_SINGLE_HOLD: register_code(KC_LCTL); break;
 
-        default: break;
-    }
-}
-
-void x_reset(tap_dance_state_t *state, void *user_data) {
-    switch (xtap_state.state) {
-        case TD_SINGLE_TAP: layer_move(0); break;
-        case TD_SINGLE_HOLD: unregister_code(KC_LCTL); break;
-
-        default: break;
-    }
-    xtap_state.state = TD_NONE;
-}
 
 
 
