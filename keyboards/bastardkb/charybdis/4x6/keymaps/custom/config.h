@@ -18,7 +18,7 @@
 
 #define TAPPING_TERM_PER_KEY
 
-//#define DEBOUNCE 10  // milliseconds
+#define DEBOUNCE 12  // milliseconds
 
 
 #ifdef VIA_ENABLE
