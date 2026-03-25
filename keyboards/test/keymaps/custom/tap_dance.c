@@ -1,6 +1,9 @@
 #include "tap_dance.h"
 
-static td_tap_t xtap_state = {.is_press_action = true, .state = TD_NONE};
+static td_tap_t xtap_state = {
+    .is_press_action = true,
+    .state           = TD_NONE,
+};
 
 td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {

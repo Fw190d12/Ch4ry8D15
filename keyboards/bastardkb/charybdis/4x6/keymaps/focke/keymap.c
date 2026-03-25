@@ -56,7 +56,11 @@ combo_t key_combos[] = {
  * TAP TANCE DEFINITIONS *
  *************************/
 
-tap_dance_action_t tap_dance_actions[] = {[TD_ESC_TILDA] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV), [TD_SLSH_BSLS] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_BSLS), [TD_CTRL_MO3] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset)};
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_ESC_TILDA] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),
+    [TD_SLSH_BSLS] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_BSLS),
+    [TD_CTRL_MO3]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset),
+};
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 #    include "timer.h"
