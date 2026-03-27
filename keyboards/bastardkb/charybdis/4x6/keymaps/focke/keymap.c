@@ -74,7 +74,7 @@ enum charybdis_keymap_layers {
 };
 
 /** \brief Automatically enable sniping-mode on the pointer layer. */
-#define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
+// #define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 static uint16_t auto_pointer_layer_timer = 0;
@@ -99,6 +99,10 @@ static uint16_t auto_pointer_layer_timer = 0;
 #    define S_D_MOD KC_NO
 #    define SNIPING KC_NO
 #endif // !POINTING_DEVICE_ENABLE
+
+#define DEFAULT_KEYMAP 1
+
+#ifdef DEFAULT_KEYMAP
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -149,11 +153,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_POINTER] = LAYOUT(
   // ╭───────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
-       EE_CLR,      QK_BOOT,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        DT_UP,      DT_DOWN,    DT_PRNT,    XXXXXXX,    QK_BOOT,    EE_CLR,
+       EE_CLR,      QK_BOOT,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,      XXXXXXX,    XXXXXXX,    XXXXXXX,    QK_BOOT,    EE_CLR,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-       XXXXXXX,     XXXXXXX,    KC_P7,      KC_P8,      KC_P9,      S_D_MOD,        S_D_MOD,    DPI_MOD,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+       XXXXXXX,     XXXXXXX,    KC_P7,      KC_P8,      KC_P9,      XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-       XXXXXXX,     KC_LGUI,    KC_P4,      KC_P5,      KC_P6,      XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    LGUI(KC_L), XXXXXXX,    XXXXXXX,
+       XXXXXXX,     KC_LGUI,    KC_P4,      KC_P5,      KC_P6,      XXXXXXX,        XXXXXXX,    KC_MS_BTN1, KC_MS_BTN2, DRGSCRL,    XXXXXXX,    LGUI(KC_L),
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
        KC_TRNS,     KC_TRNS,   KC_P1,      KC_P2,      KC_P3,       XXXXXXX,        XXXXXXX,    XXXXXXX,    SNIPING,    DRGSCRL,    XXXXXXX,    XXXXXXX,
   // ╰───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
@@ -163,6 +167,78 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 // clang-format on
+
+#else
+
+// clang-format off
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  [LAYER_BASE] = LAYOUT(
+  // ╭─────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
+        KC_TAB,     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_MINS,
+  // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_TAB,     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_LBRC,
+  // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_CAPS,    KC_A,       KC_S,       KC_D,       KC_F,       KC_G,       KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_RBRC,
+  // ├─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_LCTL,    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       KC_N,       KC_M,       KC_COMM,    KC_DOT,     TD(TD_SLSH_BSLS),LT(3,KC_QUOT),
+  // ╰─────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
+                                        KC_SPC,     KC_LSFT,    KC_LGUI,        KC_ENT,     KC_BSPC,
+                                                    KC_LALT,    MO(1),          MO(2)
+  //                                     ╰─────────────────────────────────╯ ╰──────────────────╯
+  ),
+
+  [LAYER_LOWER] = LAYOUT(
+  // ╭───────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
+        KC_F12,     KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,          KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_GRV,     XXXXXXX,    XXXXXXX,    KC_UP,      XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_VOLU,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_TRNS,    XXXXXXX,    KC_LEFT,    KC_DOWN,    KC_RGHT,    XXXXXXX,        KC_LEFT,    KC_UP,      KC_DOWN,    KC_RGHT,    XXXXXXX,    KC_MUTE,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        MO(3),      XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_VOLD,
+  // ╰───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
+                                        XXXXXXX,    KC_TRNS,    XXXXXXX,            KC_TRNS,    KC_DEL,
+                                                    XXXXXXX,    KC_TRNS,            XXXXXXX
+  //                                     ╰───────────────────────────────────╯ ╰──────────────────╯
+  ),
+
+  [LAYER_RAISE] = LAYOUT(
+  // ╭───────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
+        KC_F12,     KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,          KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_MNXT,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        KC_EQL,     KC_P7,      KC_P8,      KC_P9,      KC_PDOT,    KC_VOLU,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_MPLY,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        KC_PPLS,    KC_P4,      KC_P5,      KC_P6,      KC_PMNS,    KC_MUTE,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+        KC_MPRV,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        KC_PAST,    KC_P1,      KC_P2,      KC_P3,      KC_PSLS,    KC_VOLD,
+  // ╰───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
+                                            KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,    XXXXXXX,
+                                                        KC_TRNS,    XXXXXXX,        KC_P0
+  //                                       ╰─────────────────────────────────╯ ╰──────────────────╯
+  ),
+
+  [LAYER_POINTER] = LAYOUT(
+  // ╭───────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
+       EE_CLR,      QK_BOOT,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    QK_BOOT,    EE_CLR,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+       XXXXXXX,     XXXXXXX,    KC_P7,      KC_P8,      KC_P9,      XXXXXXX,        XXXXXXX,    XXXXXXX,    SNIPING,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+       XXXXXXX,     KC_LGUI,    KC_P4,      KC_P5,      KC_P6,      XXXXXXX,        XXXXXXX,    KC_MS_BTN1, KC_MS_BTN2, DRGSCRL,    XXXXXXX,    LGUI(KC_L),
+  // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
+       KC_TRNS,     KC_TRNS,   KC_P1,      KC_P2,      KC_P3,       XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+  // ╰───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
+                                            KC_TRNS,    KC_TRNS,    KC_TRNS,        XXXXXXX,    XXXXXXX,
+                                                        KC_TRNS,    KC_TRNS,        XXXXXXX
+  //                                       ╰─────────────────────────────────╯ ╰──────────────────╯
+  ),
+};
+
+
+#endif
+
+
+
+
 
 #ifdef POINTING_DEVICE_ENABLE
 #    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE

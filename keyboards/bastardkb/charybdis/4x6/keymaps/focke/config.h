@@ -20,6 +20,9 @@
 
 #define DEBOUNCE 12  // milliseconds
 
+#define CHARYBDIS_DRAGSCROLL_REVERSE_Y
+#define CHARYBDIS_MINIMUM_DEFAULT_DPI 800
+#define CHARYBDIS_MINIMUM_SNIPING_DPI 400
 
 #ifdef VIA_ENABLE
 /* VIA configuration. */
