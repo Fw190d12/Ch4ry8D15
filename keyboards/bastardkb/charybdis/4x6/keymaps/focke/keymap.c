@@ -125,11 +125,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭───────────────────────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────────────╮
         KC_F12,     KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,          KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        KC_GRV,     XXXXXXX,    XXXXXXX,    KC_UP,      XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_VOLU,
+        KC_GRV,     XXXXXXX,    XXXXXXX,    KC_UP,      XXXXXXX,    XXXXXXX,        XXXXXXX,    KC_HOME,    XXXXXXX,    KC_END,     XXXXXXX,    KC_VOLU,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        KC_TRNS,    XXXXXXX,    KC_LEFT,    KC_DOWN,    KC_RGHT,    XXXXXXX,        KC_LEFT,    KC_UP,      KC_DOWN,    KC_RGHT,    XXXXXXX,    KC_MUTE,
+        KC_TRNS,    XXXXXXX,    KC_LEFT,    KC_DOWN,    KC_RGHT,    XXXXXXX,        C(KC_LEFT), C(KC_UP),   C(KC_DOWN), C(KC_RGHT), XXXXXXX,    KC_MUTE,
   // ├───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────┤
-        MO(3),      XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_VOLD,
+        MO(3),      XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,        XXXXXXX,    KC_PGUP,    XXXXXXX,    KC_PGDN,    XXXXXXX,    KC_VOLD,
   // ╰───────────────────────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────────────╯
                                         XXXXXXX,    KC_TRNS,    XXXXXXX,            KC_TRNS,    KC_DEL,
                                                     XXXXXXX,    KC_TRNS,            XXXXXXX
